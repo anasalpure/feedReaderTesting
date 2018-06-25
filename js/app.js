@@ -41,6 +41,13 @@ function init() {
  * which will be called after everything has run successfully.
  */
  function loadFeed(id, cb) {
+     //Implement error handling for undefined variables and out-of-bound array access.
+    if ( id >= allFeeds.length )
+        throw  'out-of-bound array access';
+    if (typeof allFeeds[id] == 'undefined')
+        throw  'undefined variables';
+
+
      var feedUrl = allFeeds[id].url,
          feedName = allFeeds[id].name;
 
@@ -70,7 +77,7 @@ function init() {
                  });
 
                  if (cb) {
-                     cb();
+                     cb(result.feed.entries);
                  }
                },
        error: function (result, status, err){

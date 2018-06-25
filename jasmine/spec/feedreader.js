@@ -121,18 +121,28 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        var container = $('.feed');
+        var testEntries ;
+
         beforeEach(function (done) {
             // call something asynchronous
-            loadFeed(0,function(){
-                      done();
+
+            loadFeed(0,function(entries){
+                testEntries=entries;  //[{…}, {…},]
+                done();
             });
            
         });
 
-        it( ' add at least one entery to container' ,function(done){
-            expect( container[0].children.length ).toBeGreaterThan(1); 
+        it( 'will actually changes the content ' ,function(done){
+            var container = $('.feed')[0];
+
+            testEntries.forEach(function(entry,index){
+                let actualTitel= container.children[index].querySelector('h2').textContent;
+                expect( entry.title  ).toBe(actualTitel);
+            });
+
             done();
+            
         } );
 
 
